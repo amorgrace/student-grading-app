@@ -15,7 +15,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:5500",
-      "https://student-grading-app.pxxl.click",
+      "https://student-grading-app-ten.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],

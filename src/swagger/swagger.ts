@@ -3,7 +3,7 @@ import swaggerAutogen from "swagger-autogen";
 const swagger = swaggerAutogen();
 
 const doc = {
-  host: "student-grading-app.pxxl.click",
+  host: "student-grading-app-ten.vercel.app",
   schemes: ["https", "http"],
 };
 
