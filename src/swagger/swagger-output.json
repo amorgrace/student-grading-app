@@ -5,9 +5,10 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "localhost:3000",
+  "host": "student-grading-app.pxxl.click",
   "basePath": "/",
   "schemes": [
+    "https",
     "http"
   ],
   "paths": {

@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "http://localhost:5500"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true
   })
@@ -28,7 +28,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}/api/docs`);
 });
 
 
