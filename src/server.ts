@@ -6,7 +6,6 @@ import swaggerDocument from './swagger/swagger-output.json' with { type: 'json' 
 import cors from "cors"
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -27,19 +26,20 @@ app.use(
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/auth", authRoutes);
 
-
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "API is running" });
 });
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}/api/docs`);
-});
-
 
 process.on("SIGINT", async () => {
   await prisma.$disconnect();
   process.exit(0);
 });
 
-export { app, prisma };
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running at http://localhost:${PORT}/api/docs`);
+  });
+}
+
+export default app;
