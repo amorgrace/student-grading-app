@@ -69,7 +69,7 @@
         }
       }
     },
-    "/api/auth/login": {
+    "/api/auth/loginer": {
       "post": {
         "tags": [
           "Auth"
