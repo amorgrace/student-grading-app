@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "student-grading-app.pxxl.click",
+  "host": "student-grading-app-ten.vercel.app",
   "basePath": "/",
   "schemes": [
     "https",
