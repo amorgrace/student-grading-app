@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { registerUser, loginUser } from "./auth.services.js";
 import { registerSchema, loginSchema } from "./auth.schema.js";
-
+import type { RegisterInput, LoginInput } from "./auth.types.js";
 export const register = async (req: Request, res: Response): Promise<void> => {
   /*
     #swagger.tags = ['Auth']
@@ -13,7 +13,8 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         fullName: 'John Doe',
         email: 'john@example.com',
         password: 'password123',
-        confirmPassword: 'password123'
+        confirmPassword: 'password123',
+        role: 'student'
       }
     }
   */
@@ -24,7 +25,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
   }
 
   try {
-    const result = await registerUser(parsed.data);
+    const result = await registerUser(parsed.data as RegisterInput);
     res.status(201).json(result);
   } catch (error: any) {
     res.status(409).json({ message: error.message });
@@ -51,7 +52,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   }
 
   try {
-    const result = await loginUser(parsed.data);
+    const result = await loginUser(parsed.data as LoginInput);
     res.status(200).json(result);
   } catch (error: any) {
     res.status(401).json({ message: error.message });

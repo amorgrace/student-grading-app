@@ -1,8 +1,11 @@
+import { Role } from "../../generated/prisma/enums.js";
+
 export interface RegisterInput {
   fullName: string;
   email: string;
   password: string;
   confirmPassword: string;
+  role: string;
 }
 
 export interface LoginInput {
@@ -15,6 +18,7 @@ export interface AuthResponse {
     id: string;
     fullName: string;
     email: string;
+    role: Role;
   };
   token: string;
   message: string;

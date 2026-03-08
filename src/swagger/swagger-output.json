@@ -5,10 +5,9 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "student-grading-app-ten.vercel.app",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
-    "https",
     "http"
   ],
   "paths": {
@@ -51,6 +50,10 @@
                 "confirmPassword": {
                   "type": "string",
                   "example": "password123"
+                },
+                "role": {
+                  "type": "string",
+                  "example": "student"
                 }
               }
             }
@@ -106,6 +109,40 @@
             "description": "Unauthorized"
           }
         }
+      }
+    },
+    "/api/user/me": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Get current logged in user",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     }
   }

@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { prisma } from "../../lib/prisma.js";
 import bcrypt from "bcrypt";
 import type { RegisterInput, LoginInput, AuthResponse } from "./auth.types.js";
+import { Role } from "../../generated/prisma/enums.js";
 
 const SALT_ROUNDS = 10;
 const JWT_SECRET = process.env.JWT_SECRET!;
@@ -17,15 +18,16 @@ export const registerUser = async (input: RegisterInput): Promise<AuthResponse> 
       fullName: input.fullName,
       email: input.email,
       password: hashedPassword,
+      role: input.role as Role,
     },
   });
 
-  const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
+  const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: "7d" });
 
   return {
-    user: { id: user.id, fullName: user.fullName, email: user.email },
+    user: { id: user.id, fullName: user.fullName, email: user.email, role: user.role },
     token,
-    message: "Account created successfully 🎉"
+    message: "Account created successfully 🎉",
   };
 };
 
@@ -36,11 +38,11 @@ export const loginUser = async (input: LoginInput): Promise<AuthResponse> => {
   const isMatch = await bcrypt.compare(input.password, user.password as string);
   if (!isMatch) throw new Error("Invalid email or password");
 
-  const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
+  const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: "7d" });
 
   return {
-    user: { id: user.id, fullName: user.fullName, email: user.email },
+    user: { id: user.id, fullName: user.fullName, email: user.email, role: user.role },
     token,
-    message: "Login is successful"
+    message: "Login is successful",
   };
 };
