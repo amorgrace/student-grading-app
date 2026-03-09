@@ -8,8 +8,9 @@
     "build": "prisma generate && tsc",
     "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "swagger": "tsx src/swagger/swagger.ts"
+    "swagger": "cross-env NODE_ENV=production tsx src/swagger/swagger.ts"
   },
+
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -43,6 +44,7 @@
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
     "@vercel/node": "^5.6.11",
+    "cross-env": "^10.1.0",
     "prisma": "^7.4.2",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.21.0",

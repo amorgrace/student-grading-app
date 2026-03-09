@@ -23,6 +23,65 @@ model User {
   email     String   @unique
   password  String
   role      Role     @default(student)
+  teacher   Teacher?
+  student   Student?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+}
+
+model Teacher {
+  id          String       @id @default(cuid())
+  userId      String       @unique
+  user        User         @relation(fields: [userId], references: [id])
+  subject     Subject[]
+  assignments Assignment[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Student {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  classes   Classes?    @relation(fields: [classId], references: [id])
+  classId   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Classes {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  students    Student[]
+  assignments Assignment[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Subject {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  teacher     Teacher      @relation(fields: [teacherId], references: [id])
+  teacherId   String
+  assignments Assignment[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Assignment {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  deadline    DateTime
+  totalMarks  Int
+  grade       String?
+  teacher     Teacher  @relation(fields: [teacherId], references: [id])
+  teacherId   String
+  classes      Classes    @relation(fields: [classId], references: [id])
+  classId     String
+  subject     Subject  @relation(fields: [subjectId], references: [id])
+  subjectId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

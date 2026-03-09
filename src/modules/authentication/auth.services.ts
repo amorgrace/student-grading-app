@@ -22,6 +22,16 @@ export const registerUser = async (input: RegisterInput): Promise<AuthResponse> 
     },
   });
 
+  if (input.role === Role.teacher) {
+    await prisma.teacher.create({
+      data: { userId: user.id },
+    });
+  } else if (input.role === Role.student) {
+    await prisma.student.create({
+      data: { userId: user.id },
+    });
+  }
+
   const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: "7d" });
 
   return {
