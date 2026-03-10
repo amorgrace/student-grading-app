@@ -1,7 +1,8 @@
 import type { Request, Response } from "express";
-import { registerUser, loginUser } from "./auth.services.js";
+import { registerUser, loginUser, logoutUser} from "./auth.services.js";
 import { registerSchema, loginSchema } from "./auth.schema.js";
 import type { RegisterInput, LoginInput } from "./auth.types.js";
+
 export const register = async (req: Request, res: Response): Promise<void> => {
   /*
     #swagger.tags = ['Auth']
@@ -57,4 +58,13 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   } catch (error: any) {
     res.status(401).json({ message: error.message });
   }
+};
+
+export const logout = async (req: Request, res: Response): Promise<void> => {
+  /*
+    #swagger.tags = ['Auth']
+    #swagger.description = 'Logout user'
+    #swagger.security = [{ "bearerAuth": [] }]
+  */
+  res.status(200).json(logoutUser());
 };

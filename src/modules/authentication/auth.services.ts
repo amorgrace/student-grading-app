@@ -56,3 +56,7 @@ export const loginUser = async (input: LoginInput): Promise<AuthResponse> => {
     message: "Login is successful",
   };
 };
+
+export const logoutUser = () => {
+  return { message: "Logged out successfully" };
+};
