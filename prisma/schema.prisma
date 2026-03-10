@@ -34,7 +34,6 @@ model Teacher {
   id          String       @id @default(cuid())
   userId      String       @unique
   user        User         @relation(fields: [userId], references: [id])
-  subject     Subject[]
   assignments Assignment[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
@@ -46,6 +45,7 @@ model Student {
   user      User     @relation(fields: [userId], references: [id])
   classes   Classes?    @relation(fields: [classId], references: [id])
   classId   String?
+  submissions Submission[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -62,26 +62,52 @@ model Classes {
 model Subject {
   id          String       @id @default(cuid())
   name        String       @unique
-  teacher     Teacher      @relation(fields: [teacherId], references: [id])
-  teacherId   String
   assignments Assignment[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 }
 
+enum AssignmentStatus {
+  completed
+  incomplete
+}
+
+enum SubmissionStatus {
+  graded
+  ungraded
+}
+
 model Assignment {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  deadline    DateTime
-  totalMarks  Int
-  grade       String?
-  teacher     Teacher  @relation(fields: [teacherId], references: [id])
-  teacherId   String
-  classes      Classes    @relation(fields: [classId], references: [id])
-  classId     String
-  subject     Subject  @relation(fields: [subjectId], references: [id])
-  subjectId   String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String       @id @default(cuid())
+  title        String
+  question     String?
+  fileUrl      String? 
+  deadline     DateTime
+  totalMarks   Int
+  status       AssignmentStatus @default(incomplete)
+  teacher      Teacher      @relation(fields: [teacherId], references: [id])
+  teacherId    String
+  classes      Classes      @relation(fields: [classId], references: [id])
+  classId      String
+  subject      Subject      @relation(fields: [subjectId], references: [id])
+  subjectId    String
+  submissions  Submission[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Submission {
+  id           String     @id @default(cuid())
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+  assignmentId String
+  student      Student    @relation(fields: [studentId], references: [id])
+  studentId    String
+  answer       String?  
+  fileUrl      String?
+  score        Int?
+  grade        String?
+  status       SubmissionStatus @default(ungraded)
+  feedback     String?
+  submittedAt  DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 }

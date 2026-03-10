@@ -37,10 +37,11 @@ export type AssignmentSumAggregateOutputType = {
 export type AssignmentMinAggregateOutputType = {
   id: string | null
   title: string | null
-  description: string | null
+  question: string | null
+  fileUrl: string | null
   deadline: Date | null
   totalMarks: number | null
-  grade: string | null
+  status: $Enums.AssignmentStatus | null
   teacherId: string | null
   classId: string | null
   subjectId: string | null
@@ -51,10 +52,11 @@ export type AssignmentMinAggregateOutputType = {
 export type AssignmentMaxAggregateOutputType = {
   id: string | null
   title: string | null
-  description: string | null
+  question: string | null
+  fileUrl: string | null
   deadline: Date | null
   totalMarks: number | null
-  grade: string | null
+  status: $Enums.AssignmentStatus | null
   teacherId: string | null
   classId: string | null
   subjectId: string | null
@@ -65,10 +67,11 @@ export type AssignmentMaxAggregateOutputType = {
 export type AssignmentCountAggregateOutputType = {
   id: number
   title: number
-  description: number
+  question: number
+  fileUrl: number
   deadline: number
   totalMarks: number
-  grade: number
+  status: number
   teacherId: number
   classId: number
   subjectId: number
@@ -89,10 +92,11 @@ export type AssignmentSumAggregateInputType = {
 export type AssignmentMinAggregateInputType = {
   id?: true
   title?: true
-  description?: true
+  question?: true
+  fileUrl?: true
   deadline?: true
   totalMarks?: true
-  grade?: true
+  status?: true
   teacherId?: true
   classId?: true
   subjectId?: true
@@ -103,10 +107,11 @@ export type AssignmentMinAggregateInputType = {
 export type AssignmentMaxAggregateInputType = {
   id?: true
   title?: true
-  description?: true
+  question?: true
+  fileUrl?: true
   deadline?: true
   totalMarks?: true
-  grade?: true
+  status?: true
   teacherId?: true
   classId?: true
   subjectId?: true
@@ -117,10 +122,11 @@ export type AssignmentMaxAggregateInputType = {
 export type AssignmentCountAggregateInputType = {
   id?: true
   title?: true
-  description?: true
+  question?: true
+  fileUrl?: true
   deadline?: true
   totalMarks?: true
-  grade?: true
+  status?: true
   teacherId?: true
   classId?: true
   subjectId?: true
@@ -218,10 +224,11 @@ export type AssignmentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 export type AssignmentGroupByOutputType = {
   id: string
   title: string
-  description: string | null
+  question: string | null
+  fileUrl: string | null
   deadline: Date
   totalMarks: number
-  grade: string | null
+  status: $Enums.AssignmentStatus
   teacherId: string
   classId: string
   subjectId: string
@@ -255,10 +262,11 @@ export type AssignmentWhereInput = {
   NOT?: Prisma.AssignmentWhereInput | Prisma.AssignmentWhereInput[]
   id?: Prisma.StringFilter<"Assignment"> | string
   title?: Prisma.StringFilter<"Assignment"> | string
-  description?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  question?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  fileUrl?: Prisma.StringNullableFilter<"Assignment"> | string | null
   deadline?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   totalMarks?: Prisma.IntFilter<"Assignment"> | number
-  grade?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  status?: Prisma.EnumAssignmentStatusFilter<"Assignment"> | $Enums.AssignmentStatus
   teacherId?: Prisma.StringFilter<"Assignment"> | string
   classId?: Prisma.StringFilter<"Assignment"> | string
   subjectId?: Prisma.StringFilter<"Assignment"> | string
@@ -267,15 +275,17 @@ export type AssignmentWhereInput = {
   teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
   classes?: Prisma.XOR<Prisma.ClassesScalarRelationFilter, Prisma.ClassesWhereInput>
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
+  submissions?: Prisma.SubmissionListRelationFilter
 }
 
 export type AssignmentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  question?: Prisma.SortOrderInput | Prisma.SortOrder
+  fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   deadline?: Prisma.SortOrder
   totalMarks?: Prisma.SortOrder
-  grade?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
   classId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
@@ -284,6 +294,7 @@ export type AssignmentOrderByWithRelationInput = {
   teacher?: Prisma.TeacherOrderByWithRelationInput
   classes?: Prisma.ClassesOrderByWithRelationInput
   subject?: Prisma.SubjectOrderByWithRelationInput
+  submissions?: Prisma.SubmissionOrderByRelationAggregateInput
 }
 
 export type AssignmentWhereUniqueInput = Prisma.AtLeast<{
@@ -292,10 +303,11 @@ export type AssignmentWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.AssignmentWhereInput[]
   NOT?: Prisma.AssignmentWhereInput | Prisma.AssignmentWhereInput[]
   title?: Prisma.StringFilter<"Assignment"> | string
-  description?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  question?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  fileUrl?: Prisma.StringNullableFilter<"Assignment"> | string | null
   deadline?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   totalMarks?: Prisma.IntFilter<"Assignment"> | number
-  grade?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  status?: Prisma.EnumAssignmentStatusFilter<"Assignment"> | $Enums.AssignmentStatus
   teacherId?: Prisma.StringFilter<"Assignment"> | string
   classId?: Prisma.StringFilter<"Assignment"> | string
   subjectId?: Prisma.StringFilter<"Assignment"> | string
@@ -304,15 +316,17 @@ export type AssignmentWhereUniqueInput = Prisma.AtLeast<{
   teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
   classes?: Prisma.XOR<Prisma.ClassesScalarRelationFilter, Prisma.ClassesWhereInput>
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
+  submissions?: Prisma.SubmissionListRelationFilter
 }, "id">
 
 export type AssignmentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  question?: Prisma.SortOrderInput | Prisma.SortOrder
+  fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   deadline?: Prisma.SortOrder
   totalMarks?: Prisma.SortOrder
-  grade?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
   classId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
@@ -331,10 +345,11 @@ export type AssignmentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.AssignmentScalarWhereWithAggregatesInput | Prisma.AssignmentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Assignment"> | string
   title?: Prisma.StringWithAggregatesFilter<"Assignment"> | string
-  description?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
+  question?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
+  fileUrl?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
   deadline?: Prisma.DateTimeWithAggregatesFilter<"Assignment"> | Date | string
   totalMarks?: Prisma.IntWithAggregatesFilter<"Assignment"> | number
-  grade?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
+  status?: Prisma.EnumAssignmentStatusWithAggregatesFilter<"Assignment"> | $Enums.AssignmentStatus
   teacherId?: Prisma.StringWithAggregatesFilter<"Assignment"> | string
   classId?: Prisma.StringWithAggregatesFilter<"Assignment"> | string
   subjectId?: Prisma.StringWithAggregatesFilter<"Assignment"> | string
@@ -345,66 +360,75 @@ export type AssignmentScalarWhereWithAggregatesInput = {
 export type AssignmentCreateInput = {
   id?: string
   title: string
-  description?: string | null
+  question?: string | null
+  fileUrl?: string | null
   deadline: Date | string
   totalMarks: number
-  grade?: string | null
+  status?: $Enums.AssignmentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   teacher: Prisma.TeacherCreateNestedOneWithoutAssignmentsInput
   classes: Prisma.ClassesCreateNestedOneWithoutAssignmentsInput
   subject: Prisma.SubjectCreateNestedOneWithoutAssignmentsInput
+  submissions?: Prisma.SubmissionCreateNestedManyWithoutAssignmentInput
 }
 
 export type AssignmentUncheckedCreateInput = {
   id?: string
   title: string
-  description?: string | null
+  question?: string | null
+  fileUrl?: string | null
   deadline: Date | string
   totalMarks: number
-  grade?: string | null
+  status?: $Enums.AssignmentStatus
   teacherId: string
   classId: string
   subjectId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  submissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutAssignmentInput
 }
 
 export type AssignmentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  question?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
-  grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher?: Prisma.TeacherUpdateOneRequiredWithoutAssignmentsNestedInput
   classes?: Prisma.ClassesUpdateOneRequiredWithoutAssignmentsNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutAssignmentsNestedInput
+  submissions?: Prisma.SubmissionUpdateManyWithoutAssignmentNestedInput
 }
 
 export type AssignmentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  question?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
-  grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   teacherId?: Prisma.StringFieldUpdateOperationsInput | string
   classId?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submissions?: Prisma.SubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
 }
 
 export type AssignmentCreateManyInput = {
   id?: string
   title: string
-  description?: string | null
+  question?: string | null
+  fileUrl?: string | null
   deadline: Date | string
   totalMarks: number
-  grade?: string | null
+  status?: $Enums.AssignmentStatus
   teacherId: string
   classId: string
   subjectId: string
@@ -415,10 +439,11 @@ export type AssignmentCreateManyInput = {
 export type AssignmentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  question?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
-  grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -426,10 +451,11 @@ export type AssignmentUpdateManyMutationInput = {
 export type AssignmentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  question?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
-  grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   teacherId?: Prisma.StringFieldUpdateOperationsInput | string
   classId?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -450,10 +476,11 @@ export type AssignmentOrderByRelationAggregateInput = {
 export type AssignmentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  question?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrder
   deadline?: Prisma.SortOrder
   totalMarks?: Prisma.SortOrder
-  grade?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
   classId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
@@ -468,10 +495,11 @@ export type AssignmentAvgOrderByAggregateInput = {
 export type AssignmentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  question?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrder
   deadline?: Prisma.SortOrder
   totalMarks?: Prisma.SortOrder
-  grade?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
   classId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
@@ -482,10 +510,11 @@ export type AssignmentMaxOrderByAggregateInput = {
 export type AssignmentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  question?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrder
   deadline?: Prisma.SortOrder
   totalMarks?: Prisma.SortOrder
-  grade?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
   classId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
@@ -495,6 +524,11 @@ export type AssignmentMinOrderByAggregateInput = {
 
 export type AssignmentSumOrderByAggregateInput = {
   totalMarks?: Prisma.SortOrder
+}
+
+export type AssignmentScalarRelationFilter = {
+  is?: Prisma.AssignmentWhereInput
+  isNot?: Prisma.AssignmentWhereInput
 }
 
 export type AssignmentCreateNestedManyWithoutTeacherInput = {
@@ -631,30 +665,52 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type EnumAssignmentStatusFieldUpdateOperationsInput = {
+  set?: $Enums.AssignmentStatus
+}
+
+export type AssignmentCreateNestedOneWithoutSubmissionsInput = {
+  create?: Prisma.XOR<Prisma.AssignmentCreateWithoutSubmissionsInput, Prisma.AssignmentUncheckedCreateWithoutSubmissionsInput>
+  connectOrCreate?: Prisma.AssignmentCreateOrConnectWithoutSubmissionsInput
+  connect?: Prisma.AssignmentWhereUniqueInput
+}
+
+export type AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput = {
+  create?: Prisma.XOR<Prisma.AssignmentCreateWithoutSubmissionsInput, Prisma.AssignmentUncheckedCreateWithoutSubmissionsInput>
+  connectOrCreate?: Prisma.AssignmentCreateOrConnectWithoutSubmissionsInput
+  upsert?: Prisma.AssignmentUpsertWithoutSubmissionsInput
+  connect?: Prisma.AssignmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AssignmentUpdateToOneWithWhereWithoutSubmissionsInput, Prisma.AssignmentUpdateWithoutSubmissionsInput>, Prisma.AssignmentUncheckedUpdateWithoutSubmissionsInput>
+}
+
 export type AssignmentCreateWithoutTeacherInput = {
   id?: string
   title: string
-  description?: string | null
+  question?: string | null
+  fileUrl?: string | null
   deadline: Date | string
   totalMarks: number
-  grade?: string | null
+  status?: $Enums.AssignmentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   classes: Prisma.ClassesCreateNestedOneWithoutAssignmentsInput
   subject: Prisma.SubjectCreateNestedOneWithoutAssignmentsInput
+  submissions?: Prisma.SubmissionCreateNestedManyWithoutAssignmentInput
 }
 
 export type AssignmentUncheckedCreateWithoutTeacherInput = {
   id?: string
   title: string
-  description?: string | null
+  question?: string | null
+  fileUrl?: string | null
   deadline: Date | string
   totalMarks: number
-  grade?: string | null
+  status?: $Enums.AssignmentStatus
   classId: string
   subjectId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  submissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutAssignmentInput
 }
 
 export type AssignmentCreateOrConnectWithoutTeacherInput = {
@@ -689,10 +745,11 @@ export type AssignmentScalarWhereInput = {
   NOT?: Prisma.AssignmentScalarWhereInput | Prisma.AssignmentScalarWhereInput[]
   id?: Prisma.StringFilter<"Assignment"> | string
   title?: Prisma.StringFilter<"Assignment"> | string
-  description?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  question?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  fileUrl?: Prisma.StringNullableFilter<"Assignment"> | string | null
   deadline?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   totalMarks?: Prisma.IntFilter<"Assignment"> | number
-  grade?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  status?: Prisma.EnumAssignmentStatusFilter<"Assignment"> | $Enums.AssignmentStatus
   teacherId?: Prisma.StringFilter<"Assignment"> | string
   classId?: Prisma.StringFilter<"Assignment"> | string
   subjectId?: Prisma.StringFilter<"Assignment"> | string
@@ -703,27 +760,31 @@ export type AssignmentScalarWhereInput = {
 export type AssignmentCreateWithoutClassesInput = {
   id?: string
   title: string
-  description?: string | null
+  question?: string | null
+  fileUrl?: string | null
   deadline: Date | string
   totalMarks: number
-  grade?: string | null
+  status?: $Enums.AssignmentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   teacher: Prisma.TeacherCreateNestedOneWithoutAssignmentsInput
   subject: Prisma.SubjectCreateNestedOneWithoutAssignmentsInput
+  submissions?: Prisma.SubmissionCreateNestedManyWithoutAssignmentInput
 }
 
 export type AssignmentUncheckedCreateWithoutClassesInput = {
   id?: string
   title: string
-  description?: string | null
+  question?: string | null
+  fileUrl?: string | null
   deadline: Date | string
   totalMarks: number
-  grade?: string | null
+  status?: $Enums.AssignmentStatus
   teacherId: string
   subjectId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  submissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutAssignmentInput
 }
 
 export type AssignmentCreateOrConnectWithoutClassesInput = {
@@ -755,27 +816,31 @@ export type AssignmentUpdateManyWithWhereWithoutClassesInput = {
 export type AssignmentCreateWithoutSubjectInput = {
   id?: string
   title: string
-  description?: string | null
+  question?: string | null
+  fileUrl?: string | null
   deadline: Date | string
   totalMarks: number
-  grade?: string | null
+  status?: $Enums.AssignmentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   teacher: Prisma.TeacherCreateNestedOneWithoutAssignmentsInput
   classes: Prisma.ClassesCreateNestedOneWithoutAssignmentsInput
+  submissions?: Prisma.SubmissionCreateNestedManyWithoutAssignmentInput
 }
 
 export type AssignmentUncheckedCreateWithoutSubjectInput = {
   id?: string
   title: string
-  description?: string | null
+  question?: string | null
+  fileUrl?: string | null
   deadline: Date | string
   totalMarks: number
-  grade?: string | null
+  status?: $Enums.AssignmentStatus
   teacherId: string
   classId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  submissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutAssignmentInput
 }
 
 export type AssignmentCreateOrConnectWithoutSubjectInput = {
@@ -804,13 +869,90 @@ export type AssignmentUpdateManyWithWhereWithoutSubjectInput = {
   data: Prisma.XOR<Prisma.AssignmentUpdateManyMutationInput, Prisma.AssignmentUncheckedUpdateManyWithoutSubjectInput>
 }
 
+export type AssignmentCreateWithoutSubmissionsInput = {
+  id?: string
+  title: string
+  question?: string | null
+  fileUrl?: string | null
+  deadline: Date | string
+  totalMarks: number
+  status?: $Enums.AssignmentStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  teacher: Prisma.TeacherCreateNestedOneWithoutAssignmentsInput
+  classes: Prisma.ClassesCreateNestedOneWithoutAssignmentsInput
+  subject: Prisma.SubjectCreateNestedOneWithoutAssignmentsInput
+}
+
+export type AssignmentUncheckedCreateWithoutSubmissionsInput = {
+  id?: string
+  title: string
+  question?: string | null
+  fileUrl?: string | null
+  deadline: Date | string
+  totalMarks: number
+  status?: $Enums.AssignmentStatus
+  teacherId: string
+  classId: string
+  subjectId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type AssignmentCreateOrConnectWithoutSubmissionsInput = {
+  where: Prisma.AssignmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AssignmentCreateWithoutSubmissionsInput, Prisma.AssignmentUncheckedCreateWithoutSubmissionsInput>
+}
+
+export type AssignmentUpsertWithoutSubmissionsInput = {
+  update: Prisma.XOR<Prisma.AssignmentUpdateWithoutSubmissionsInput, Prisma.AssignmentUncheckedUpdateWithoutSubmissionsInput>
+  create: Prisma.XOR<Prisma.AssignmentCreateWithoutSubmissionsInput, Prisma.AssignmentUncheckedCreateWithoutSubmissionsInput>
+  where?: Prisma.AssignmentWhereInput
+}
+
+export type AssignmentUpdateToOneWithWhereWithoutSubmissionsInput = {
+  where?: Prisma.AssignmentWhereInput
+  data: Prisma.XOR<Prisma.AssignmentUpdateWithoutSubmissionsInput, Prisma.AssignmentUncheckedUpdateWithoutSubmissionsInput>
+}
+
+export type AssignmentUpdateWithoutSubmissionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  question?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  teacher?: Prisma.TeacherUpdateOneRequiredWithoutAssignmentsNestedInput
+  classes?: Prisma.ClassesUpdateOneRequiredWithoutAssignmentsNestedInput
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutAssignmentsNestedInput
+}
+
+export type AssignmentUncheckedUpdateWithoutSubmissionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  question?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
+  teacherId?: Prisma.StringFieldUpdateOperationsInput | string
+  classId?: Prisma.StringFieldUpdateOperationsInput | string
+  subjectId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type AssignmentCreateManyTeacherInput = {
   id?: string
   title: string
-  description?: string | null
+  question?: string | null
+  fileUrl?: string | null
   deadline: Date | string
   totalMarks: number
-  grade?: string | null
+  status?: $Enums.AssignmentStatus
   classId: string
   subjectId: string
   createdAt?: Date | string
@@ -820,36 +962,41 @@ export type AssignmentCreateManyTeacherInput = {
 export type AssignmentUpdateWithoutTeacherInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  question?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
-  grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   classes?: Prisma.ClassesUpdateOneRequiredWithoutAssignmentsNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutAssignmentsNestedInput
+  submissions?: Prisma.SubmissionUpdateManyWithoutAssignmentNestedInput
 }
 
 export type AssignmentUncheckedUpdateWithoutTeacherInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  question?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
-  grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   classId?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submissions?: Prisma.SubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
 }
 
 export type AssignmentUncheckedUpdateManyWithoutTeacherInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  question?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
-  grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   classId?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -859,10 +1006,11 @@ export type AssignmentUncheckedUpdateManyWithoutTeacherInput = {
 export type AssignmentCreateManyClassesInput = {
   id?: string
   title: string
-  description?: string | null
+  question?: string | null
+  fileUrl?: string | null
   deadline: Date | string
   totalMarks: number
-  grade?: string | null
+  status?: $Enums.AssignmentStatus
   teacherId: string
   subjectId: string
   createdAt?: Date | string
@@ -872,36 +1020,41 @@ export type AssignmentCreateManyClassesInput = {
 export type AssignmentUpdateWithoutClassesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  question?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
-  grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher?: Prisma.TeacherUpdateOneRequiredWithoutAssignmentsNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutAssignmentsNestedInput
+  submissions?: Prisma.SubmissionUpdateManyWithoutAssignmentNestedInput
 }
 
 export type AssignmentUncheckedUpdateWithoutClassesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  question?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
-  grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   teacherId?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submissions?: Prisma.SubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
 }
 
 export type AssignmentUncheckedUpdateManyWithoutClassesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  question?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
-  grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   teacherId?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -911,10 +1064,11 @@ export type AssignmentUncheckedUpdateManyWithoutClassesInput = {
 export type AssignmentCreateManySubjectInput = {
   id?: string
   title: string
-  description?: string | null
+  question?: string | null
+  fileUrl?: string | null
   deadline: Date | string
   totalMarks: number
-  grade?: string | null
+  status?: $Enums.AssignmentStatus
   teacherId: string
   classId: string
   createdAt?: Date | string
@@ -924,36 +1078,41 @@ export type AssignmentCreateManySubjectInput = {
 export type AssignmentUpdateWithoutSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  question?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
-  grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher?: Prisma.TeacherUpdateOneRequiredWithoutAssignmentsNestedInput
   classes?: Prisma.ClassesUpdateOneRequiredWithoutAssignmentsNestedInput
+  submissions?: Prisma.SubmissionUpdateManyWithoutAssignmentNestedInput
 }
 
 export type AssignmentUncheckedUpdateWithoutSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  question?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
-  grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   teacherId?: Prisma.StringFieldUpdateOperationsInput | string
   classId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submissions?: Prisma.SubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
 }
 
 export type AssignmentUncheckedUpdateManyWithoutSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  question?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
-  grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   teacherId?: Prisma.StringFieldUpdateOperationsInput | string
   classId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -961,14 +1120,44 @@ export type AssignmentUncheckedUpdateManyWithoutSubjectInput = {
 }
 
 
+/**
+ * Count Type AssignmentCountOutputType
+ */
+
+export type AssignmentCountOutputType = {
+  submissions: number
+}
+
+export type AssignmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  submissions?: boolean | AssignmentCountOutputTypeCountSubmissionsArgs
+}
+
+/**
+ * AssignmentCountOutputType without action
+ */
+export type AssignmentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssignmentCountOutputType
+   */
+  select?: Prisma.AssignmentCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AssignmentCountOutputType without action
+ */
+export type AssignmentCountOutputTypeCountSubmissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SubmissionWhereInput
+}
+
 
 export type AssignmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  description?: boolean
+  question?: boolean
+  fileUrl?: boolean
   deadline?: boolean
   totalMarks?: boolean
-  grade?: boolean
+  status?: boolean
   teacherId?: boolean
   classId?: boolean
   subjectId?: boolean
@@ -977,15 +1166,18 @@ export type AssignmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   classes?: boolean | Prisma.ClassesDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
+  submissions?: boolean | Prisma.Assignment$submissionsArgs<ExtArgs>
+  _count?: boolean | Prisma.AssignmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assignment"]>
 
 export type AssignmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  description?: boolean
+  question?: boolean
+  fileUrl?: boolean
   deadline?: boolean
   totalMarks?: boolean
-  grade?: boolean
+  status?: boolean
   teacherId?: boolean
   classId?: boolean
   subjectId?: boolean
@@ -999,10 +1191,11 @@ export type AssignmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type AssignmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  description?: boolean
+  question?: boolean
+  fileUrl?: boolean
   deadline?: boolean
   totalMarks?: boolean
-  grade?: boolean
+  status?: boolean
   teacherId?: boolean
   classId?: boolean
   subjectId?: boolean
@@ -1016,10 +1209,11 @@ export type AssignmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type AssignmentSelectScalar = {
   id?: boolean
   title?: boolean
-  description?: boolean
+  question?: boolean
+  fileUrl?: boolean
   deadline?: boolean
   totalMarks?: boolean
-  grade?: boolean
+  status?: boolean
   teacherId?: boolean
   classId?: boolean
   subjectId?: boolean
@@ -1027,11 +1221,13 @@ export type AssignmentSelectScalar = {
   updatedAt?: boolean
 }
 
-export type AssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "deadline" | "totalMarks" | "grade" | "teacherId" | "classId" | "subjectId" | "createdAt" | "updatedAt", ExtArgs["result"]["assignment"]>
+export type AssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "question" | "fileUrl" | "deadline" | "totalMarks" | "status" | "teacherId" | "classId" | "subjectId" | "createdAt" | "updatedAt", ExtArgs["result"]["assignment"]>
 export type AssignmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   classes?: boolean | Prisma.ClassesDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
+  submissions?: boolean | Prisma.Assignment$submissionsArgs<ExtArgs>
+  _count?: boolean | Prisma.AssignmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AssignmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
@@ -1050,14 +1246,16 @@ export type $AssignmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     teacher: Prisma.$TeacherPayload<ExtArgs>
     classes: Prisma.$ClassesPayload<ExtArgs>
     subject: Prisma.$SubjectPayload<ExtArgs>
+    submissions: Prisma.$SubmissionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
-    description: string | null
+    question: string | null
+    fileUrl: string | null
     deadline: Date
     totalMarks: number
-    grade: string | null
+    status: $Enums.AssignmentStatus
     teacherId: string
     classId: string
     subjectId: string
@@ -1460,6 +1658,7 @@ export interface Prisma__AssignmentClient<T, Null = never, ExtArgs extends runti
   teacher<T extends Prisma.TeacherDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeacherDefaultArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   classes<T extends Prisma.ClassesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClassesDefaultArgs<ExtArgs>>): Prisma.Prisma__ClassesClient<runtime.Types.Result.GetResult<Prisma.$ClassesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   subject<T extends Prisma.SubjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubjectDefaultArgs<ExtArgs>>): Prisma.Prisma__SubjectClient<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  submissions<T extends Prisma.Assignment$submissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assignment$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1491,10 +1690,11 @@ export interface Prisma__AssignmentClient<T, Null = never, ExtArgs extends runti
 export interface AssignmentFieldRefs {
   readonly id: Prisma.FieldRef<"Assignment", 'String'>
   readonly title: Prisma.FieldRef<"Assignment", 'String'>
-  readonly description: Prisma.FieldRef<"Assignment", 'String'>
+  readonly question: Prisma.FieldRef<"Assignment", 'String'>
+  readonly fileUrl: Prisma.FieldRef<"Assignment", 'String'>
   readonly deadline: Prisma.FieldRef<"Assignment", 'DateTime'>
   readonly totalMarks: Prisma.FieldRef<"Assignment", 'Int'>
-  readonly grade: Prisma.FieldRef<"Assignment", 'String'>
+  readonly status: Prisma.FieldRef<"Assignment", 'AssignmentStatus'>
   readonly teacherId: Prisma.FieldRef<"Assignment", 'String'>
   readonly classId: Prisma.FieldRef<"Assignment", 'String'>
   readonly subjectId: Prisma.FieldRef<"Assignment", 'String'>
@@ -1893,6 +2093,30 @@ export type AssignmentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many Assignments to delete.
    */
   limit?: number
+}
+
+/**
+ * Assignment.submissions
+ */
+export type Assignment$submissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Submission
+   */
+  select?: Prisma.SubmissionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Submission
+   */
+  omit?: Prisma.SubmissionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubmissionInclude<ExtArgs> | null
+  where?: Prisma.SubmissionWhereInput
+  orderBy?: Prisma.SubmissionOrderByWithRelationInput | Prisma.SubmissionOrderByWithRelationInput[]
+  cursor?: Prisma.SubmissionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SubmissionScalarFieldEnum | Prisma.SubmissionScalarFieldEnum[]
 }
 
 /**

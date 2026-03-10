@@ -71,3 +71,8 @@ export type Subject = Prisma.SubjectModel
  * 
  */
 export type Assignment = Prisma.AssignmentModel
+/**
+ * Model Submission
+ * 
+ */
+export type Submission = Prisma.SubmissionModel

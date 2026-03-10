@@ -5,6 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './swagger/swagger-output.json' with { type: 'json' };
 import cors from "cors"
 import userRoutes from "./modules/user/user.routes.js";
+import teacherRoutes from "./modules/teacher/teacher.routes.js"
 
 
 const app = express();
@@ -35,6 +36,7 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
 }));
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("api/teacher", teacherRoutes)
 
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "API is running" });

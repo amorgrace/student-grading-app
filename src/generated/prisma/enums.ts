@@ -15,3 +15,19 @@ export const Role = {
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const AssignmentStatus = {
+  completed: 'completed',
+  incomplete: 'incomplete'
+} as const
+
+export type AssignmentStatus = (typeof AssignmentStatus)[keyof typeof AssignmentStatus]
+
+
+export const SubmissionStatus = {
+  graded: 'graded',
+  ungraded: 'ungraded'
+} as const
+
+export type SubmissionStatus = (typeof SubmissionStatus)[keyof typeof SubmissionStatus]

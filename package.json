@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "npm run swagger && tsx watch src/server.ts",
-    "build": "prisma generate && tsc",
+    "build": "npm run swagger:prod && prisma generate && tsc",
     "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "swagger": "cross-env NODE_ENV=production tsx src/swagger/swagger.ts"
+    "swagger": "cross-env NODE_ENV=development tsx src/swagger/swagger.ts",
+    "swagger:prod": "cross-env NODE_ENV=production tsx src/swagger/swagger.ts"
   },
 
   "keywords": [],
