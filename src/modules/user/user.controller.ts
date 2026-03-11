@@ -3,11 +3,9 @@ import { prisma } from "../../lib/prisma.js";
 import type { AuthRequest } from "../../middlewares/auth.middlewares.js";;
 
 export const getMe = async (req: AuthRequest, res: Response): Promise<void> => {
-  /*
-    #swagger.tags = ['User']
-    #swagger.description = 'Get current logged in user'
-    #swagger.security = [{ "bearerAuth": [] }]
-  */
+  // #swagger.tags = ['User']
+  // #swagger.description = 'Get current logged in user'
+  // #swagger.security = [{ "bearerAuth": [] }]
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.userId },
