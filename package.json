@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "seed": "tsx prisma/seed.ts",
     "dev": "npm run swagger && tsx watch src/server.ts",
     "build": "npm run swagger:prod && prisma generate && tsc",
     "start": "node dist/server.js",
