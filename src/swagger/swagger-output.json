@@ -26,7 +26,8 @@
         "tags": [
           "Auth"
         ],
-        "description": "Register a new user",
+        "summary": "Register a new user",
+        "description": "Creates a new user account with fullName, email, password and role. Automatically creates a Teacher or Student record based on the role provided.",
         "parameters": [
           {
             "name": "body",
@@ -77,7 +78,8 @@
         "tags": [
           "Auth"
         ],
-        "description": "Log in an existing user",
+        "summary": "Login user",
+        "description": "Authenticates a user with email and password. Returns a JWT token valid for 7 days along with the user profile.",
         "parameters": [
           {
             "name": "body",
@@ -116,7 +118,8 @@
         "tags": [
           "Auth"
         ],
-        "description": "Logout user",
+        "summary": "Logout user",
+        "description": "Invalidates the current JWT token by blacklisting it. The token can no longer be used after this request. Requires a valid Bearer token.",
         "parameters": [
           {
             "name": "authorization",
@@ -144,6 +147,7 @@
         "tags": [
           "User"
         ],
+        "summary": "Get current logged in user",
         "description": "Get current logged in user",
         "parameters": [
           {
@@ -178,7 +182,8 @@
         "tags": [
           "Teacher"
         ],
-        "description": "Get teacher profile",
+        "summary": "Get teacher profile",
+        "description": "Returns the authenticated teacher profile including their user details and associated subjects and assignments.",
         "parameters": [
           {
             "name": "authorization",
@@ -207,7 +212,8 @@
         "tags": [
           "Teacher"
         ],
-        "description": "Update teacher profile",
+        "summary": "Update teacher profile",
+        "description": "Updates the authenticated teacher full name. Only fullName can be updated at this time.",
         "parameters": [
           {
             "name": "authorization",
@@ -238,7 +244,8 @@
         "tags": [
           "Teacher"
         ],
-        "description": "Create a new assignment",
+        "summary": "Create a new assignment",
+        "description": "Creates a new assignment for a specific class and subject. Teacher can provide a question as text or upload a file via Cloudinary URL. A deadline and total marks must be provided.",
         "parameters": [
           {
             "name": "authorization",
@@ -305,7 +312,8 @@
         "tags": [
           "Teacher"
         ],
-        "description": "Get all assignments created by teacher",
+        "summary": "Get all assignments",
+        "description": "Returns all assignments created by the authenticated teacher including class, subject and submission details. Ordered by most recent first.",
         "parameters": [
           {
             "name": "authorization",
@@ -336,7 +344,8 @@
         "tags": [
           "Teacher"
         ],
-        "description": "Update an assignment",
+        "summary": "Update an assignment",
+        "description": "Updates an existing assignment by ID. Only the teacher who created the assignment can update it. All fields are optional.",
         "parameters": [
           {
             "name": "id",
@@ -371,7 +380,8 @@
         "tags": [
           "Teacher"
         ],
-        "description": "Delete an assignment",
+        "summary": "Delete an assignment",
+        "description": "Permanently deletes an assignment by ID. Only the teacher who created the assignment can delete it.",
         "parameters": [
           {
             "name": "id",
@@ -408,7 +418,8 @@
         "tags": [
           "Teacher"
         ],
-        "description": "Get all submissions for an assignment",
+        "summary": "Get all submissions for an assignment",
+        "description": "Returns all student submissions for a specific assignment. Only the teacher who created the assignment can view its submissions. Includes student details and submission status.",
         "parameters": [
           {
             "name": "id",
@@ -445,7 +456,8 @@
         "tags": [
           "Teacher"
         ],
-        "description": "Grade a student submission",
+        "summary": "Grade a submission",
+        "description": "Grades a student submission by providing a score and optional feedback. The grade is automatically calculated based on the score and total marks. Submission status is updated to graded.",
         "parameters": [
           {
             "name": "id",
@@ -500,7 +512,8 @@
         "tags": [
           "Classes"
         ],
-        "description": "Get all classes",
+        "summary": "Get all classes",
+        "description": "Returns a list of all available classes from Basic 1 to Basic 5. Accessible to all users.",
         "responses": {
           "200": {
             "description": "OK"
@@ -516,7 +529,8 @@
         "tags": [
           "Classes"
         ],
-        "description": "Get a single class",
+        "summary": "Get a single class",
+        "description": "Returns the details of a single class by its ID. Requires authentication.",
         "parameters": [
           {
             "name": "id",
@@ -556,7 +570,8 @@
         "tags": [
           "Classes"
         ],
-        "description": "Enroll student in a class",
+        "summary": "Enroll student in a class",
+        "description": "Enrolls the currently authenticated student into a class. A student can only enroll once and cannot change their class after enrollment.",
         "parameters": [
           {
             "name": "authorization",
@@ -604,7 +619,8 @@
         "tags": [
           "Subjects"
         ],
-        "description": "Get all subjects",
+        "summary": "Get all subjects",
+        "description": "Returns a list of all available subjects ordered alphabetically. These are seeded subjects available for teachers to use when creating assignments.",
         "parameters": [
           {
             "name": "authorization",
@@ -635,7 +651,8 @@
         "tags": [
           "Subjects"
         ],
-        "description": "Get a single subject",
+        "summary": "Get a single subject",
+        "description": "Returns the details of a single subject by its ID. Returns 404 if subject does not exist.",
         "parameters": [
           {
             "name": "id",
@@ -675,7 +692,8 @@
         "tags": [
           "Student"
         ],
-        "description": "Get student profile",
+        "summary": "Get student profile",
+        "description": "Returns the authenticated student profile including their enrolled class and user details.",
         "parameters": [
           {
             "name": "authorization",
@@ -704,7 +722,8 @@
         "tags": [
           "Student"
         ],
-        "description": "Update student profile",
+        "summary": "Update student profile",
+        "description": "Updates the authenticated student full name. Only fullName can be updated at this time.",
         "parameters": [
           {
             "name": "authorization",
@@ -749,7 +768,8 @@
         "tags": [
           "Student"
         ],
-        "description": "Enroll student in a class",
+        "summary": "Enroll in a class",
+        "description": "Enrolls the authenticated student into a class using the classId. A student can only enroll once and cannot switch classes after  .",
         "parameters": [
           {
             "name": "authorization",
@@ -794,7 +814,8 @@
         "tags": [
           "Student"
         ],
-        "description": "Get all assignments for student class",
+        "summary": "Get all assignments",
+        "description": "Returns all assignments for the class the student is enrolled in. Student must be enrolled in a class to access this endpoint.",
         "parameters": [
           {
             "name": "authorization",
@@ -825,7 +846,8 @@
         "tags": [
           "Student"
         ],
-        "description": "Get a single assignment",
+        "summary": "Get a single assignment",
+        "description": "Returns the details of a single assignment by its ID including subject, class and teacher information.",
         "parameters": [
           {
             "name": "id",
@@ -862,7 +884,8 @@
         "tags": [
           "Student"
         ],
-        "description": "Submit an assignment",
+        "summary": "Submit an assignment",
+        "description": "Submits an answer for an assignment. Student can either type an answer or provide a Cloudinary file URL. Cannot submit after the deadline or submit twice.",
         "parameters": [
           {
             "name": "id",
@@ -917,7 +940,8 @@
         "tags": [
           "Student"
         ],
-        "description": "Get all student submissions",
+        "summary": "Get all submissions",
+        "description": "Returns all submissions made by the authenticated student including grade, score, feedback and submission status.",
         "parameters": [
           {
             "name": "authorization",
@@ -948,7 +972,8 @@
         "tags": [
           "Submissions"
         ],
-        "description": "Get a single submission",
+        "summary": "Get a single submission",
+        "description": "Returns the details of a single submission by its ID. Students can only view their own submissions. Teachers can only view submissions belonging to their assignments.",
         "parameters": [
           {
             "name": "id",
@@ -983,7 +1008,8 @@
         "tags": [
           "Submissions"
         ],
-        "description": "Update a submission (student only, before graded)",
+        "summary": "Update a submission",
+        "description": "Allows a student to update their submission answer or file URL. Cannot be updated once the submission has been graded by a teacher.",
         "parameters": [
           {
             "name": "id",
@@ -1036,7 +1062,8 @@
         "tags": [
           "Submissions"
         ],
-        "description": "Delete a submission (student only, before graded)",
+        "summary": "Delete a submission",
+        "description": "Allows a student to delete their submission. Cannot be deleted once the submission has been graded by a teacher. Only the student who made the submission can delete it.",
         "parameters": [
           {
             "name": "id",

@@ -4,6 +4,7 @@ import type { AuthRequest } from "../../middlewares/auth.middlewares.js";;
 
 export const getMe = async (req: AuthRequest, res: Response): Promise<void> => {
   // #swagger.tags = ['User']
+  // #swagger.summary = 'Get current logged in user'
   // #swagger.description = 'Get current logged in user'
   // #swagger.security = [{ "bearerAuth": [] }]
   try {

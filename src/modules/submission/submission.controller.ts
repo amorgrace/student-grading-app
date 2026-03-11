@@ -4,11 +4,10 @@ import { getSubmission, updateSubmission, deleteSubmission } from "./submission.
 import { updateSubmissionSchema } from "./submission.schema.js";
 
 export const getSubmissionController = async (req: AuthRequest, res: Response): Promise<void> => {
-  /*
-    #swagger.tags = ['Submissions']
-    #swagger.description = 'Get a single submission'
-    #swagger.security = [{ "bearerAuth": [] }]
-  */
+  // #swagger.tags = ['Submissions']
+  // #swagger.summary = 'Get a single submission'
+  // #swagger.description = 'Returns the details of a single submission by its ID. Students can only view their own submissions. Teachers can only view submissions belonging to their assignments.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   const { id } = req.params as { id: string };
   try {
     const result = await getSubmission(req.userId!, id, req.role!);
@@ -19,10 +18,11 @@ export const getSubmissionController = async (req: AuthRequest, res: Response): 
 };
 
 export const updateSubmissionController = async (req: AuthRequest, res: Response): Promise<void> => {
+  // #swagger.tags = ['Submissions']
+  // #swagger.summary = 'Update a submission'
+  // #swagger.description = 'Allows a student to update their submission answer or file URL. Cannot be updated once the submission has been graded by a teacher.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   /*
-    #swagger.tags = ['Submissions']
-    #swagger.description = 'Update a submission (student only, before graded)'
-    #swagger.security = [{ "bearerAuth": [] }]
     #swagger.parameters['body'] = {
       in: 'body',
       required: true,
@@ -47,11 +47,10 @@ export const updateSubmissionController = async (req: AuthRequest, res: Response
 };
 
 export const deleteSubmissionController = async (req: AuthRequest, res: Response): Promise<void> => {
-  /*
-    #swagger.tags = ['Submissions']
-    #swagger.description = 'Delete a submission (student only, before graded)'
-    #swagger.security = [{ "bearerAuth": [] }]
-  */
+  // #swagger.tags = ['Submissions']
+  // #swagger.summary = 'Delete a submission'
+  // #swagger.description = 'Allows a student to delete their submission. Cannot be deleted once the submission has been graded by a teacher. Only the student who made the submission can delete it.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   const { id } = req.params as { id: string };
   try {
     const result = await deleteSubmission(req.userId!, id);

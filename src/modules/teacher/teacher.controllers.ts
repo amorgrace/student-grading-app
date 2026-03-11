@@ -17,11 +17,10 @@ import {
 } from "./teacher.schema.js";
 
 export const getProfile = async (req: AuthRequest, res: Response): Promise<void> => {
-  /*
-    #swagger.tags = ['Teacher']
-    #swagger.description = 'Get teacher profile'
-    #swagger.security = [{ "bearerAuth": [] }]
-  */
+  // #swagger.tags = ['Teacher']
+  // #swagger.summary = 'Get teacher profile'
+  // #swagger.description = 'Returns the authenticated teacher profile including their user details and associated subjects and assignments.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   try {
     const result = await getTeacherProfile(req.userId!);
     res.status(200).json(result);
@@ -31,11 +30,10 @@ export const getProfile = async (req: AuthRequest, res: Response): Promise<void>
 };
 
 export const updateProfile = async (req: AuthRequest, res: Response): Promise<void> => {
-  /*
-    #swagger.tags = ['Teacher']
-    #swagger.description = 'Update teacher profile'
-    #swagger.security = [{ "bearerAuth": [] }]
-  */
+  // #swagger.tags = ['Teacher']
+  // #swagger.summary = 'Update teacher profile'
+  // #swagger.description = 'Updates the authenticated teacher full name. Only fullName can be updated at this time.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   try {
     const result = await updateTeacherProfile(req.userId!, req.body);
     res.status(200).json(result);
@@ -45,10 +43,11 @@ export const updateProfile = async (req: AuthRequest, res: Response): Promise<vo
 };
 
 export const createAssignmentController = async (req: AuthRequest, res: Response): Promise<void> => {
+  // #swagger.tags = ['Teacher']
+  // #swagger.summary = 'Create a new assignment'
+  // #swagger.description = 'Creates a new assignment for a specific class and subject. Teacher can provide a question as text or upload a file via Cloudinary URL. A deadline and total marks must be provided.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   /*
-    #swagger.tags = ['Teacher']
-    #swagger.description = 'Create a new assignment'
-    #swagger.security = [{ "bearerAuth": [] }]
     #swagger.parameters['body'] = {
       in: 'body',
       required: true,
@@ -78,11 +77,10 @@ export const createAssignmentController = async (req: AuthRequest, res: Response
 };
 
 export const getAssignmentsController = async (req: AuthRequest, res: Response): Promise<void> => {
-  /*
-    #swagger.tags = ['Teacher']
-    #swagger.description = 'Get all assignments created by teacher'
-    #swagger.security = [{ "bearerAuth": [] }]
-  */
+  // #swagger.tags = ['Teacher']
+  // #swagger.summary = 'Get all assignments'
+  // #swagger.description = 'Returns all assignments created by the authenticated teacher including class, subject and submission details. Ordered by most recent first.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   try {
     const result = await getTeacherAssignments(req.userId!);
     res.status(200).json(result);
@@ -92,11 +90,10 @@ export const getAssignmentsController = async (req: AuthRequest, res: Response):
 };
 
 export const updateAssignmentController = async (req: AuthRequest, res: Response): Promise<void> => {
-  /*
-    #swagger.tags = ['Teacher']
-    #swagger.description = 'Update an assignment'
-    #swagger.security = [{ "bearerAuth": [] }]
-  */
+  // #swagger.tags = ['Teacher']
+  // #swagger.summary = 'Update an assignment'
+  // #swagger.description = 'Updates an existing assignment by ID. Only the teacher who created the assignment can update it. All fields are optional.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   const { id } = req.params as { id: string };
   const parsed = updateAssignmentSchema.safeParse(req.body);
   if (!parsed.success) {
@@ -113,11 +110,10 @@ export const updateAssignmentController = async (req: AuthRequest, res: Response
 };
 
 export const deleteAssignmentController = async (req: AuthRequest, res: Response): Promise<void> => {
-  /*
-    #swagger.tags = ['Teacher']
-    #swagger.description = 'Delete an assignment'
-    #swagger.security = [{ "bearerAuth": [] }]
-  */
+  // #swagger.tags = ['Teacher']
+  // #swagger.summary = 'Delete an assignment'
+  // #swagger.description = 'Permanently deletes an assignment by ID. Only the teacher who created the assignment can delete it.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   const { id } = req.params as { id: string };
   try {
     const result = await deleteAssignment(req.userId!, id);
@@ -128,11 +124,10 @@ export const deleteAssignmentController = async (req: AuthRequest, res: Response
 };
 
 export const getSubmissionsController = async (req: AuthRequest, res: Response): Promise<void> => {
-  /*
-    #swagger.tags = ['Teacher']
-    #swagger.description = 'Get all submissions for an assignment'
-    #swagger.security = [{ "bearerAuth": [] }]
-  */
+  // #swagger.tags = ['Teacher']
+  // #swagger.summary = 'Get all submissions for an assignment'
+  // #swagger.description = 'Returns all student submissions for a specific assignment. Only the teacher who created the assignment can view its submissions. Includes student details and submission status.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   const { id } = req.params as { id: string };
   try {
     const result = await getAssignmentSubmissions(req.userId!, id);
@@ -143,10 +138,11 @@ export const getSubmissionsController = async (req: AuthRequest, res: Response):
 };
 
 export const gradeSubmissionController = async (req: AuthRequest, res: Response): Promise<void> => {
+  // #swagger.tags = ['Teacher']
+  // #swagger.summary = 'Grade a submission'
+  // #swagger.description = 'Grades a student submission by providing a score and optional feedback. The grade is automatically calculated based on the score and total marks. Submission status is updated to graded.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   /*
-    #swagger.tags = ['Teacher']
-    #swagger.description = 'Grade a student submission'
-    #swagger.security = [{ "bearerAuth": [] }]
     #swagger.parameters['body'] = {
       in: 'body',
       required: true,

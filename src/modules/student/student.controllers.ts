@@ -12,10 +12,11 @@ import {
 import { enrollSchema, submitAssignmentSchema } from "./student.schema.js";
 
 export const enroll = async (req: AuthRequest, res: Response): Promise<void> => {
+  // #swagger.tags = ['Student']
+  // #swagger.summary = 'Enroll in a class'
+  // #swagger.description = 'Enrolls the authenticated student into a class using the classId. A student can only enroll once and cannot switch classes after enrollment.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   /*
-    #swagger.tags = ['Student']
-    #swagger.description = 'Enroll student in a class'
-    #swagger.security = [{ "bearerAuth": [] }]
     #swagger.parameters['body'] = {
       in: 'body',
       required: true,
@@ -36,11 +37,10 @@ export const enroll = async (req: AuthRequest, res: Response): Promise<void> => 
 };
 
 export const getProfile = async (req: AuthRequest, res: Response): Promise<void> => {
-  /*
-    #swagger.tags = ['Student']
-    #swagger.description = 'Get student profile'
-    #swagger.security = [{ "bearerAuth": [] }]
-  */
+  // #swagger.tags = ['Student']
+  // #swagger.summary = 'Get student profile'
+  // #swagger.description = 'Returns the authenticated student profile including their enrolled class and user details.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   try {
     const result = await getStudentProfile(req.userId!);
     res.status(200).json(result);
@@ -50,10 +50,11 @@ export const getProfile = async (req: AuthRequest, res: Response): Promise<void>
 };
 
 export const updateProfile = async (req: AuthRequest, res: Response): Promise<void> => {
+  // #swagger.tags = ['Student']
+  // #swagger.summary = 'Update student profile'
+  // #swagger.description = 'Updates the authenticated student full name. Only fullName can be updated at this time.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   /*
-    #swagger.tags = ['Student']
-    #swagger.description = 'Update student profile'
-    #swagger.security = [{ "bearerAuth": [] }]
     #swagger.parameters['body'] = {
       in: 'body',
       required: true,
@@ -69,11 +70,10 @@ export const updateProfile = async (req: AuthRequest, res: Response): Promise<vo
 };
 
 export const getAssignments = async (req: AuthRequest, res: Response): Promise<void> => {
-  /*
-    #swagger.tags = ['Student']
-    #swagger.description = 'Get all assignments for student class'
-    #swagger.security = [{ "bearerAuth": [] }]
-  */
+  // #swagger.tags = ['Student']
+  // #swagger.summary = 'Get all assignments'
+  // #swagger.description = 'Returns all assignments for the class the student is enrolled in. Student must be enrolled in a class to access this endpoint.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   try {
     const result = await getStudentAssignments(req.userId!);
     res.status(200).json(result);
@@ -83,11 +83,10 @@ export const getAssignments = async (req: AuthRequest, res: Response): Promise<v
 };
 
 export const getAssignment = async (req: AuthRequest, res: Response): Promise<void> => {
-  /*
-    #swagger.tags = ['Student']
-    #swagger.description = 'Get a single assignment'
-    #swagger.security = [{ "bearerAuth": [] }]
-  */
+  // #swagger.tags = ['Student']
+  // #swagger.summary = 'Get a single assignment'
+  // #swagger.description = 'Returns the details of a single assignment by its ID including subject, class and teacher information.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   const { id } = req.params as { id: string };
   try {
     const result = await getSingleAssignment(req.userId!, id);
@@ -98,10 +97,11 @@ export const getAssignment = async (req: AuthRequest, res: Response): Promise<vo
 };
 
 export const submit = async (req: AuthRequest, res: Response): Promise<void> => {
+  // #swagger.tags = ['Student']
+  // #swagger.summary = 'Submit an assignment'
+  // #swagger.description = 'Submits an answer for an assignment. Student can either type an answer or provide a Cloudinary file URL. Cannot submit after the deadline or submit twice.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   /*
-    #swagger.tags = ['Student']
-    #swagger.description = 'Submit an assignment'
-    #swagger.security = [{ "bearerAuth": [] }]
     #swagger.parameters['body'] = {
       in: 'body',
       required: true,
@@ -126,11 +126,10 @@ export const submit = async (req: AuthRequest, res: Response): Promise<void> => 
 };
 
 export const getSubmissions = async (req: AuthRequest, res: Response): Promise<void> => {
-  /*
-    #swagger.tags = ['Student']
-    #swagger.description = 'Get all student submissions'
-    #swagger.security = [{ "bearerAuth": [] }]
-  */
+  // #swagger.tags = ['Student']
+  // #swagger.summary = 'Get all submissions'
+  // #swagger.description = 'Returns all submissions made by the authenticated student including grade, score, feedback and submission status.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   try {
     const result = await getStudentSubmissions(req.userId!);
     res.status(200).json(result);

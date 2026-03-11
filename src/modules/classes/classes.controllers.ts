@@ -4,10 +4,9 @@ import type { AuthRequest } from "../../middlewares/auth.middlewares.js";
 import { prisma } from "../../lib/prisma.js";
 
 export const getClasses = async (req: Request, res: Response): Promise<void> => {
-  /*
-    #swagger.tags = ['Classes']
-    #swagger.description = 'Get all classes'
-  */
+  // #swagger.tags = ['Classes']
+  // #swagger.summary = 'Get all classes'
+  // #swagger.description = 'Returns a list of all available classes from Basic 1 to Basic 5. Accessible to all users.'
   try {
     const result = await getAllClasses();
     res.status(200).json(result);
@@ -17,10 +16,11 @@ export const getClasses = async (req: Request, res: Response): Promise<void> => 
 };
 
 export const enrollStudentController = async (req: AuthRequest, res: Response): Promise<void> => {
+  // #swagger.tags = ['Classes']
+  // #swagger.summary = 'Enroll student in a class'
+  // #swagger.description = 'Enrolls the currently authenticated student into a class. A student can only enroll once and cannot change their class after enrollment.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   /*
-    #swagger.tags = ['Classes']
-    #swagger.description = 'Enroll student in a class'
-    #swagger.security = [{ "bearerAuth": [] }]
     #swagger.parameters['body'] = {
       in: 'body',
       required: true,
@@ -37,13 +37,11 @@ export const enrollStudentController = async (req: AuthRequest, res: Response): 
   }
 };
 
-
 export const getClassById = async (req: AuthRequest, res: Response): Promise<void> => {
-  /*
-    #swagger.tags = ['Classes']
-    #swagger.description = 'Get a single class'
-    #swagger.security = [{ "bearerAuth": [] }]
-  */
+  // #swagger.tags = ['Classes']
+  // #swagger.summary = 'Get a single class'
+  // #swagger.description = 'Returns the details of a single class by its ID. Requires authentication.'
+  // #swagger.security = [{ "bearerAuth": [] }]
   const { id } = req.params as { id: string };
   try {
     const cls = await prisma.classes.findUnique({ where: { id } });
