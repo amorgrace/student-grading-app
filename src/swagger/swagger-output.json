@@ -173,7 +173,7 @@
         ]
       }
     },
-    "api/teacher/profile": {
+    "/api/teacher/profile": {
       "get": {
         "tags": [
           "Teacher"
@@ -233,7 +233,7 @@
         ]
       }
     },
-    "api/teacher/assignments": {
+    "/api/teacher/assignments": {
       "post": {
         "tags": [
           "Teacher"
@@ -331,7 +331,7 @@
         ]
       }
     },
-    "api/teacher/assignments/{id}": {
+    "/api/teacher/assignments/{id}": {
       "put": {
         "tags": [
           "Teacher"
@@ -403,7 +403,7 @@
         ]
       }
     },
-    "api/teacher/assignments/{id}/submissions": {
+    "/api/teacher/assignments/{id}/submissions": {
       "get": {
         "tags": [
           "Teacher"
@@ -440,7 +440,7 @@
         ]
       }
     },
-    "api/teacher/submissions/{id}/grade": {
+    "/api/teacher/submissions/{id}/grade": {
       "put": {
         "tags": [
           "Teacher"
