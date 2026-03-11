@@ -37,7 +37,7 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
 }));
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
-app.use("api/teacher", teacherRoutes)
+app.use("/api/teacher", teacherRoutes)
 
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "API is running" });
