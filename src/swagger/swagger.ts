@@ -1,12 +1,13 @@
+
 import swaggerAutogen from "swagger-autogen";
 
 const swagger = swaggerAutogen();
 
-const isProduction = process.env.NODE_ENV === "production";
-
 const doc = {
-  host: isProduction ? "student-grading-app-ten.vercel.app" : "localhost:3000",
-  schemes: isProduction ? ["https"] : ["http"],
+  info: {
+    title: "Student Grading API",
+    description: "API documentation",
+  },
 };
 
 const outputFile = "./swagger-output.json";

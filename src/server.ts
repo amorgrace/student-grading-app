@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { prisma } from "./lib/prisma.js";
 import authRoutes from "./modules/authentication/auth.routes.js";
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './swagger/swagger-output.json' with { type: 'json' };
+import swaggerDoc from './swagger/swagger-output.json' with { type: 'json' };
 import cors from "cors"
 import userRoutes from "./modules/user/user.routes.js";
 import teacherRoutes from "./modules/teacher/teacher.routes.js"
@@ -28,6 +28,14 @@ app.use(
   })
 );
 
+const swaggerDocument = JSON.parse(JSON.stringify(swaggerDoc));
+  swaggerDocument.host = process.env.NODE_ENV === "production"
+    ? "student-grading-app-ten.vercel.app"
+    : "localhost:3000";
+  swaggerDocument.schemes = process.env.NODE_ENV === "production"
+    ? ["https"]
+    : ["http"];
+
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
   customCssUrl: "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui.min.css",
   customJs: [
@@ -35,6 +43,8 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
     "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui-standalone-preset.min.js",
   ]
 }));
+
+
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/teacher", teacherRoutes)

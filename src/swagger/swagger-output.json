@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.0.0",
-    "title": "REST API",
-    "description": ""
+    "title": "Student Grading API",
+    "description": "API documentation",
+    "version": "1.0.0"
   },
   "host": "localhost:3000",
   "basePath": "/",
