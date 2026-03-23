@@ -62,6 +62,16 @@ app.get("/", (req: Request, res: Response) => {
   res.json({ message: "API is running" });
 });
 
+
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    console.log(`${req.method} ${req.path} - ${duration}ms`);
+  });
+  next();
+});
+
 process.on("SIGINT", async () => {
   await prisma.$disconnect();
   process.exit(0);
