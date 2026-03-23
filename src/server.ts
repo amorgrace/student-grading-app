@@ -72,6 +72,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// ok
 process.on("SIGINT", async () => {
   await prisma.$disconnect();
   process.exit(0);
