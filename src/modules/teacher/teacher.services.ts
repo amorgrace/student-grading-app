@@ -128,6 +128,22 @@ export const getAssignmentSubmissions = async (userId: string, assignmentId: str
   });
 };
 
+export const getSingleAssignment = async (userId: string, assignmentId: string) => {
+  const teacher = await prisma.teacher.findUnique({ where: { userId } });
+  if (!teacher) throw new Error("Teacher not found");
+
+  const assignment = await prisma.assignment.findFirst({
+    where: { id: assignmentId, teacherId: teacher.id },
+    include: {
+      classes: true,
+      subject: true,
+      submissions: true,
+    },
+  });
+  if (!assignment) throw new Error("Assignment not found");
+  return assignment;
+};
+
 export const gradeSubmission = async (userId: string, submissionId: string, input: GradeSubmissionInput) => {
   const teacher = await prisma.teacher.findUnique({ where: { userId } });
   if (!teacher) throw new Error("Teacher not found");
@@ -147,7 +163,7 @@ export const gradeSubmission = async (userId: string, submissionId: string, inpu
       score: input.score,
       grade,
       feedback: input.feedback,
-      status: "graded", // automatically set to graded
+      status: "graded",
     },
   });
 };

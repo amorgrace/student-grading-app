@@ -9,6 +9,7 @@ import {
   deleteAssignment,
   getAssignmentSubmissions,
   gradeSubmission,
+  getSingleAssignment
 } from "./teacher.services.js";
 import {
   createAssignmentSchema,
@@ -86,6 +87,20 @@ export const getAssignmentsController = async (req: AuthRequest, res: Response):
     res.status(200).json(result);
   } catch (error: any) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+export const getSingleAssignmentController = async (req: AuthRequest, res: Response): Promise<void> => {
+  // #swagger.tags = ['Teacher']
+  // #swagger.summary = 'Get a single assignment'
+  // #swagger.description = 'Returns the details of a single assignment by ID including class, subject and all submissions. Only the teacher who created the assignment can view it.'
+  // #swagger.security = [{ "bearerAuth": [] }]
+  const { id } = req.params as { id: string };
+  try {
+    const result = await getSingleAssignment(req.userId!, id);
+    res.status(200).json(result);
+  } catch (error: any) {
+    res.status(404).json({ message: error.message });
   }
 };
 
