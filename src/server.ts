@@ -67,7 +67,7 @@ app.use((req, res, next) => {
   const start = Date.now();
   res.on("finish", () => {
     const duration = Date.now() - start;
-    console.log(`${req.method} ${req.path} - ${duration}ms`);
+    process.stdout.write(`${req.method} ${req.path} - ${duration}ms\n`);
   });
   next();
 });
