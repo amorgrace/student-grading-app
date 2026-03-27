@@ -1,6 +1,10 @@
 import type { Response } from "express";
 import type { AuthRequest } from "../../middlewares/auth.middlewares.js";
 import {
+  parseActiveFilter,
+  parsePositiveInteger,
+} from "../../lib/assignment-activity.js";
+import {
   enrollStudent,
   getStudentProfile,
   getStudentAssignments,
@@ -78,8 +82,16 @@ export const getAssignments = async (req: AuthRequest, res: Response): Promise<v
   // #swagger.description = 'Returns all assignments for the class the student is enrolled in. Student must be enrolled in a class to access this endpoint.'
   // #swagger.security = [{ "bearerAuth": [] }]
   // #swagger.parameters['authorization'] = { in: 'header', type: 'string', description: 'Bearer token' }
+  // #swagger.parameters['active'] = { in: 'query', type: 'string', description: 'Optional activity filter. Use true for active assignments and false for inactive assignments.' }
+  // #swagger.parameters['page'] = { in: 'query', type: 'number', description: 'Page number. Defaults to 1.' }
+  // #swagger.parameters['pageSize'] = { in: 'query', type: 'number', description: 'Assignments per page. Defaults to 16.' }
   try {
-    const result = await getStudentAssignments(req.userId!);
+    const result = await getStudentAssignments(
+      req.userId!,
+      parseActiveFilter(req.query.active),
+      parsePositiveInteger(req.query.page, 1),
+      parsePositiveInteger(req.query.pageSize, 16),
+    );
     res.status(200).json(result);
   } catch (error: any) {
     res.status(400).json({ message: error.message });

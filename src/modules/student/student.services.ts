@@ -1,4 +1,8 @@
 import { prisma } from "../../lib/prisma.js";
+import {
+  addAssignmentActivity,
+  buildAssignmentDeadlineFilter,
+} from "../../lib/assignment-activity.js";
 
 export const enrollStudent = async (userId: string, classId: string) => {
   // Single query to fetch student and check enrollment status
@@ -54,8 +58,9 @@ export const updateStudentProfile = async (
 
 export const getStudentAssignments = async (
   userId: string,
+  active?: boolean,
   page: number = 1,
-  pageSize: number = 20,
+  pageSize: number = 16,
 ) => {
   const student = await prisma.student.findUnique({
     where: { userId },
@@ -65,8 +70,11 @@ export const getStudentAssignments = async (
   if (!student.classId) throw new Error("Student is not enrolled in a class");
 
   const skip = (page - 1) * pageSize;
-  return await prisma.assignment.findMany({
-    where: { classId: student.classId },
+  const assignments = await prisma.assignment.findMany({
+    where: {
+      classId: student.classId,
+      ...buildAssignmentDeadlineFilter(active),
+    },
     include: {
       subject: { select: { id: true, name: true } },
       classes: { select: { id: true, name: true } },
@@ -81,6 +89,8 @@ export const getStudentAssignments = async (
     skip,
     take: pageSize,
   });
+
+  return assignments.map(addAssignmentActivity);
 };
 
 export const getSingleAssignment = async (
@@ -118,7 +128,7 @@ export const getSingleAssignment = async (
     },
   });
   if (!assignment) throw new Error("Assignment not found");
-  return assignment;
+  return addAssignmentActivity(assignment);
 };
 
 export const submitAssignment = async (

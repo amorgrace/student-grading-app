@@ -322,6 +322,24 @@
             "in": "header",
             "type": "string",
             "description": "Bearer token"
+          },
+          {
+            "name": "active",
+            "in": "query",
+            "type": "string",
+            "description": "Optional activity filter. Use true for active assignments and false for inactive assignments."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "number",
+            "description": "Page number. Defaults to 1."
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "type": "number",
+            "description": "Assignments per page. Defaults to 16."
           }
         ],
         "responses": {
@@ -896,6 +914,24 @@
             "in": "header",
             "type": "string",
             "description": "Bearer token"
+          },
+          {
+            "name": "active",
+            "in": "query",
+            "type": "string",
+            "description": "Optional activity filter. Use true for active assignments and false for inactive assignments."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "number",
+            "description": "Page number. Defaults to 1."
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "type": "number",
+            "description": "Assignments per page. Defaults to 16."
           }
         ],
         "responses": {

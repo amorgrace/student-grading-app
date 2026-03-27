@@ -1,4 +1,8 @@
 import { prisma } from "../../lib/prisma.js";
+import {
+  addAssignmentActivity,
+  buildAssignmentDeadlineFilter,
+} from "../../lib/assignment-activity.js";
 import type {
   CreateAssignmentInput,
   UpdateAssignmentInput,
@@ -73,17 +77,21 @@ export const createAssignment = async (
     },
   });
 
-  return assignment;
+  return addAssignmentActivity(assignment);
 };
 
 export const getTeacherAssignments = async (
   userId: string,
+  active?: boolean,
   page: number = 1,
-  pageSize: number = 20,
+  pageSize: number = 16,
 ) => {
   const skip = (page - 1) * pageSize;
-  return await prisma.assignment.findMany({
-    where: { teacher: { userId } },
+  const assignments = await prisma.assignment.findMany({
+    where: {
+      teacher: { userId },
+      ...buildAssignmentDeadlineFilter(active),
+    },
     select: {
       id: true,
       title: true,
@@ -98,6 +106,8 @@ export const getTeacherAssignments = async (
     skip,
     take: pageSize,
   });
+
+  return assignments.map(addAssignmentActivity);
 };
 
 export const updateAssignment = async (
@@ -118,9 +128,11 @@ export const updateAssignment = async (
 
   if (result.count === 0) throw new Error("Assignment not found");
 
-  return await prisma.assignment.findUnique({
+  const assignment = await prisma.assignment.findUnique({
     where: { id: assignmentId },
   });
+
+  return assignment ? addAssignmentActivity(assignment) : assignment;
 };
 
 export const deleteAssignment = async (
@@ -208,7 +220,7 @@ export const getSingleAssignment = async (
     },
   });
   if (!assignment) throw new Error("Assignment not found");
-  return assignment;
+  return addAssignmentActivity(assignment);
 };
 
 export const gradeSubmission = async (
@@ -229,6 +241,9 @@ export const gradeSubmission = async (
   });
   if (!submission) throw new Error("Submission not found");
   if (submission.assignment.teacher.userId !== userId) throw new Error("Unauthorized");
+  if (input.score > submission.assignment.totalMarks) {
+    throw new Error("Score cannot be greater than total marks");
+  }
 
   const grade = calculateGrade(input.score, submission.assignment.totalMarks);
 
