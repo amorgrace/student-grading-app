@@ -1,5 +1,9 @@
 import type { Request, Response } from "express";
-import { getAllClasses, enrollStudent } from "./classes.services.js";
+import {
+  getAllClasses,
+  enrollStudent,
+  getClassStudentCount,
+} from "./classes.services.js";
 import type { AuthRequest } from "../../middlewares/auth.middlewares.js";
 import { prisma } from "../../lib/prisma.js";
 
@@ -52,5 +56,26 @@ export const getClassById = async (req: AuthRequest, res: Response): Promise<voi
     res.status(200).json(cls);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const getClassStudentCountController = async (
+  req: AuthRequest,
+  res: Response,
+): Promise<void> => {
+  // #swagger.tags = ['Classes']
+  // #swagger.summary = 'Get total students in a class'
+  // #swagger.description = 'Returns the total number of students currently enrolled in a specific class. Requires authentication.'
+  // #swagger.security = [{ "bearerAuth": [] }]
+  // #swagger.parameters['authorization'] = { in: 'header', type: 'string', description: 'Bearer token' }
+  const { id } = req.params as { id: string };
+
+  try {
+    const result = await getClassStudentCount(id);
+    res.status(200).json(result);
+  } catch (error: any) {
+    res.status(error.message === "Class not found" ? 404 : 400).json({
+      message: error.message,
+    });
   }
 };

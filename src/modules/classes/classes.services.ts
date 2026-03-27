@@ -37,3 +37,22 @@ export const enrollStudent = async (userId: string, classId: string) => {
     },
   });
 };
+
+export const getClassStudentCount = async (classId: string) => {
+  const cls = await prisma.classes.findUnique({
+    where: { id: classId },
+    select: {
+      id: true,
+      name: true,
+      _count: { select: { students: true } },
+    },
+  });
+
+  if (!cls) throw new Error("Class not found");
+
+  return {
+    id: cls.id,
+    name: cls.name,
+    totalStudents: cls._count.students,
+  };
+};
