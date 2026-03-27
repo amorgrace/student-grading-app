@@ -5,9 +5,15 @@ import type { Role } from "../generated/prisma/enums.js";
 export interface AuthRequest extends Request {
   userId?: string;
   role?: Role;
+  studentId?: string;
+  teacherId?: string;
 }
 
-export const protect = (req: AuthRequest, res: Response, next: NextFunction) => {
+export const protect = (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -17,7 +23,10 @@ export const protect = (req: AuthRequest, res: Response, next: NextFunction) => 
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { userId: string; role: Role };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
+      userId: string;
+      role: Role;
+    };
     req.userId = decoded.userId;
     req.role = decoded.role;
     next();

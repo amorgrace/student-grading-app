@@ -384,6 +384,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  BlacklistedToken: 'BlacklistedToken',
   User: 'User',
   Teacher: 'Teacher',
   Student: 'Student',
@@ -406,10 +407,84 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "teacher" | "student" | "classes" | "subject" | "assignment" | "submission"
+    modelProps: "blacklistedToken" | "user" | "teacher" | "student" | "classes" | "subject" | "assignment" | "submission"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    BlacklistedToken: {
+      payload: Prisma.$BlacklistedTokenPayload<ExtArgs>
+      fields: Prisma.BlacklistedTokenFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BlacklistedTokenFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlacklistedTokenPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BlacklistedTokenFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlacklistedTokenPayload>
+        }
+        findFirst: {
+          args: Prisma.BlacklistedTokenFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlacklistedTokenPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BlacklistedTokenFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlacklistedTokenPayload>
+        }
+        findMany: {
+          args: Prisma.BlacklistedTokenFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlacklistedTokenPayload>[]
+        }
+        create: {
+          args: Prisma.BlacklistedTokenCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlacklistedTokenPayload>
+        }
+        createMany: {
+          args: Prisma.BlacklistedTokenCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BlacklistedTokenCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlacklistedTokenPayload>[]
+        }
+        delete: {
+          args: Prisma.BlacklistedTokenDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlacklistedTokenPayload>
+        }
+        update: {
+          args: Prisma.BlacklistedTokenUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlacklistedTokenPayload>
+        }
+        deleteMany: {
+          args: Prisma.BlacklistedTokenDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BlacklistedTokenUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BlacklistedTokenUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlacklistedTokenPayload>[]
+        }
+        upsert: {
+          args: Prisma.BlacklistedTokenUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlacklistedTokenPayload>
+        }
+        aggregate: {
+          args: Prisma.BlacklistedTokenAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBlacklistedToken>
+        }
+        groupBy: {
+          args: Prisma.BlacklistedTokenGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BlacklistedTokenGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BlacklistedTokenCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BlacklistedTokenCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -967,6 +1042,15 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const BlacklistedTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  createdAt: 'createdAt'
+} as const
+
+export type BlacklistedTokenScalarFieldEnum = (typeof BlacklistedTokenScalarFieldEnum)[keyof typeof BlacklistedTokenScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   fullName: 'fullName',
@@ -1101,20 +1185,6 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
 
 
 /**
- * Reference to a field of type 'Role'
- */
-export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
-    
-
-
-/**
- * Reference to a field of type 'Role[]'
- */
-export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
-    
-
-
-/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -1125,6 +1195,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Role'
+ */
+export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
+    
+
+
+/**
+ * Reference to a field of type 'Role[]'
+ */
+export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
     
 
 
@@ -1278,6 +1362,7 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
+  blacklistedToken?: Prisma.BlacklistedTokenOmit
   user?: Prisma.UserOmit
   teacher?: Prisma.TeacherOmit
   student?: Prisma.StudentOmit

@@ -12,6 +12,12 @@ datasource db {
   provider = "postgresql"
 }
 
+model BlacklistedToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  createdAt DateTime @default(now())
+}
+
 enum Role {
   student
   teacher
@@ -48,6 +54,8 @@ model Student {
   submissions Submission[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([classId])
 }
 
 model Classes {
@@ -94,6 +102,12 @@ model Assignment {
   submissions  Submission[]
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
+
+  @@index([teacherId])
+  @@index([classId])
+  @@index([subjectId])
+  @@index([teacherId, createdAt])
+  @@index([classId, createdAt])
 }
 
 model Submission {
@@ -110,4 +124,10 @@ model Submission {
   feedback     String?
   submittedAt  DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
+
+  @@index([assignmentId])
+  @@index([studentId])
+  @@index([assignmentId, submittedAt])
+  @@index([studentId, submittedAt])
+  @@unique([assignmentId, studentId])
 }

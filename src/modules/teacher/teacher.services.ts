@@ -1,5 +1,9 @@
 import { prisma } from "../../lib/prisma.js";
-import type { CreateAssignmentInput, UpdateAssignmentInput, GradeSubmissionInput } from "./teacher.types.js";
+import type {
+  CreateAssignmentInput,
+  UpdateAssignmentInput,
+  GradeSubmissionInput,
+} from "./teacher.types.js";
 
 const calculateGrade = (score: number, totalMarks: number): string => {
   const percentage = (score / totalMarks) * 100;
@@ -24,7 +28,10 @@ export const getTeacherProfile = async (userId: string) => {
   return teacher;
 };
 
-export const updateTeacherProfile = async (userId: string, data: { fullName?: string }) => {
+export const updateTeacherProfile = async (
+  userId: string,
+  data: { fullName?: string },
+) => {
   const teacher = await prisma.teacher.findUnique({ where: { userId } });
   if (!teacher) throw new Error("Teacher not found");
 
@@ -37,10 +44,10 @@ export const updateTeacherProfile = async (userId: string, data: { fullName?: st
   return user;
 };
 
-export const createAssignment = async (userId: string, input: CreateAssignmentInput) => {
-  const teacher = await prisma.teacher.findUnique({ where: { userId } });
-  if (!teacher) throw new Error("Teacher not found");
-
+export const createAssignment = async (
+  userId: string,
+  input: CreateAssignmentInput,
+) => {
   const assignment = await prisma.assignment.create({
     data: {
       title: input.title,
@@ -48,112 +55,179 @@ export const createAssignment = async (userId: string, input: CreateAssignmentIn
       fileUrl: input.fileUrl,
       deadline: new Date(input.deadline),
       totalMarks: input.totalMarks,
-      teacherId: teacher.id,
+      teacher: { connect: { userId } },
       classId: input.classId,
       subjectId: input.subjectId,
     },
-    include: {
-      classes: true,
-      subject: true,
+    select: {
+      id: true,
+      title: true,
+      question: true,
+      fileUrl: true,
+      deadline: true,
+      totalMarks: true,
+      status: true,
+      classes: { select: { id: true, name: true } },
+      subject: { select: { id: true, name: true } },
     },
   });
 
   return assignment;
 };
 
-export const getTeacherAssignments = async (userId: string) => {
-  const teacher = await prisma.teacher.findUnique({ where: { userId } });
-  if (!teacher) throw new Error("Teacher not found");
-
+export const getTeacherAssignments = async (
+  userId: string,
+  page: number = 1,
+  pageSize: number = 20,
+) => {
+  const skip = (page - 1) * pageSize;
   return await prisma.assignment.findMany({
-    where: { teacherId: teacher.id },
-    include: {
-      classes: true,
-      subject: true,
-      submissions: true,
+    where: { teacher: { userId } },
+    select: {
+      id: true,
+      title: true,
+      deadline: true,
+      totalMarks: true,
+      status: true,
+      classes: { select: { id: true, name: true } },
+      subject: { select: { id: true, name: true } },
+      _count: { select: { submissions: true } },
     },
     orderBy: { createdAt: "desc" },
+    skip,
+    take: pageSize,
   });
 };
 
-export const updateAssignment = async (userId: string, assignmentId: string, input: UpdateAssignmentInput) => {
-  const teacher = await prisma.teacher.findUnique({ where: { userId } });
-  if (!teacher) throw new Error("Teacher not found");
-
-  const assignment = await prisma.assignment.findFirst({
-    where: { id: assignmentId, teacherId: teacher.id },
-  });
-  if (!assignment) throw new Error("Assignment not found");
-
-  return await prisma.assignment.update({
-    where: { id: assignmentId },
+export const updateAssignment = async (
+  userId: string,
+  assignmentId: string,
+  input: UpdateAssignmentInput,
+) => {
+  const result = await prisma.assignment.updateMany({
+    where: {
+      id: assignmentId,
+      teacher: { userId },
+    },
     data: {
       ...input,
       deadline: input.deadline ? new Date(input.deadline) : undefined,
     },
   });
+
+  if (result.count === 0) throw new Error("Assignment not found");
+
+  return await prisma.assignment.findUnique({
+    where: { id: assignmentId },
+  });
 };
 
-export const deleteAssignment = async (userId: string, assignmentId: string) => {
-  const teacher = await prisma.teacher.findUnique({ where: { userId } });
-  if (!teacher) throw new Error("Teacher not found");
-
-  const assignment = await prisma.assignment.findFirst({
-    where: { id: assignmentId, teacherId: teacher.id },
+export const deleteAssignment = async (
+  userId: string,
+  assignmentId: string,
+) => {
+  const result = await prisma.assignment.deleteMany({
+    where: {
+      id: assignmentId,
+      teacher: { userId },
+    },
   });
-  if (!assignment) throw new Error("Assignment not found");
 
-  await prisma.assignment.delete({ where: { id: assignmentId } });
+  if (result.count === 0) throw new Error("Assignment not found");
   return { message: "Assignment deleted successfully" };
 };
 
-export const getAssignmentSubmissions = async (userId: string, assignmentId: string) => {
-  const teacher = await prisma.teacher.findUnique({ where: { userId } });
-  if (!teacher) throw new Error("Teacher not found");
-
-  const assignment = await prisma.assignment.findFirst({
-    where: { id: assignmentId, teacherId: teacher.id },
-  });
-  if (!assignment) throw new Error("Assignment not found");
-
-  return await prisma.submission.findMany({
-    where: { assignmentId },
-    include: {
+export const getAssignmentSubmissions = async (
+  userId: string,
+  assignmentId: string,
+  page: number = 1,
+  pageSize: number = 50,
+) => {
+  const skip = (page - 1) * pageSize;
+  const submissions = await prisma.submission.findMany({
+    where: {
+      assignmentId,
+      assignment: {
+        teacher: { userId },
+      },
+    },
+    select: {
+      id: true,
+      answer: true,
+      fileUrl: true,
+      score: true,
+      grade: true,
+      status: true,
+      feedback: true,
+      submittedAt: true,
       student: {
-        include: {
+        select: {
           user: { select: { fullName: true, email: true } },
         },
       },
     },
+    skip,
+    take: pageSize,
   });
-};
 
-export const getSingleAssignment = async (userId: string, assignmentId: string) => {
-  const teacher = await prisma.teacher.findUnique({ where: { userId } });
-  if (!teacher) throw new Error("Teacher not found");
+  if (submissions.length > 0) return submissions;
 
   const assignment = await prisma.assignment.findFirst({
-    where: { id: assignmentId, teacherId: teacher.id },
-    include: {
-      classes: true,
-      subject: true,
-      submissions: true,
+    where: {
+      id: assignmentId,
+      teacher: { userId },
+    },
+    select: { id: true },
+  });
+  if (!assignment) throw new Error("Assignment not found");
+
+  return submissions;
+};
+
+export const getSingleAssignment = async (
+  userId: string,
+  assignmentId: string,
+) => {
+  const assignment = await prisma.assignment.findFirst({
+    where: {
+      id: assignmentId,
+      teacher: { userId },
+    },
+    select: {
+      id: true,
+      title: true,
+      question: true,
+      fileUrl: true,
+      deadline: true,
+      totalMarks: true,
+      status: true,
+      classes: { select: { id: true, name: true } },
+      subject: { select: { id: true, name: true } },
+      _count: { select: { submissions: true } },
     },
   });
   if (!assignment) throw new Error("Assignment not found");
   return assignment;
 };
 
-export const gradeSubmission = async (userId: string, submissionId: string, input: GradeSubmissionInput) => {
-  const teacher = await prisma.teacher.findUnique({ where: { userId } });
-  if (!teacher) throw new Error("Teacher not found");
-
+export const gradeSubmission = async (
+  userId: string,
+  submissionId: string,
+  input: GradeSubmissionInput,
+) => {
   const submission = await prisma.submission.findUnique({
     where: { id: submissionId },
-    include: { assignment: true },
+    include: {
+      assignment: {
+        select: {
+          totalMarks: true,
+          teacher: { select: { userId: true } },
+        },
+      },
+    },
   });
   if (!submission) throw new Error("Submission not found");
-  if (submission.assignment.teacherId !== teacher.id) throw new Error("Unauthorized");
+  if (submission.assignment.teacher.userId !== userId) throw new Error("Unauthorized");
 
   const grade = calculateGrade(input.score, submission.assignment.totalMarks);
 
