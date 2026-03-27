@@ -11,6 +11,7 @@ const calculateGrade = (score: number, totalMarks: number): string => {
   if (percentage >= 60) return "B";
   if (percentage >= 50) return "C";
   if (percentage >= 40) return "D";
+  if (percentage >= 30) return "E";
   return "F";
 };
 
@@ -56,8 +57,8 @@ export const createAssignment = async (
       deadline: new Date(input.deadline),
       totalMarks: input.totalMarks,
       teacher: { connect: { userId } },
-      classId: input.classId,
-      subjectId: input.subjectId,
+      classes: { connect: { id: input.classId } },
+      subject: { connect: { id: input.subjectId } },
     },
     select: {
       id: true,
