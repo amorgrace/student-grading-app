@@ -19,18 +19,30 @@ export const parsePositiveInteger = (
   return parsed;
 };
 
+export const getDeadlineDayEnd = (deadline: Date): Date => {
+  const deadlineDayEnd = new Date(deadline);
+  deadlineDayEnd.setHours(23, 59, 59, 999);
+  return deadlineDayEnd;
+};
+
+export const normalizeDeadlineInput = (deadline: string | Date): Date =>
+  getDeadlineDayEnd(new Date(deadline));
+
 export const buildAssignmentDeadlineFilter = (
   active?: boolean,
-): { deadline?: { gt?: Date; lte?: Date } } => {
+): { deadline?: { gte?: Date; lt?: Date } } => {
   if (active === undefined) return {};
 
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+
   return {
-    deadline: active ? { gt: new Date() } : { lte: new Date() },
+    deadline: active ? { gte: todayStart } : { lt: todayStart },
   };
 };
 
 export const isAssignmentActive = (deadline: Date): boolean =>
-  deadline.getTime() > Date.now();
+  getDeadlineDayEnd(deadline).getTime() > Date.now();
 
 export const addAssignmentActivity = <T extends { deadline: Date }>(
   assignment: T,

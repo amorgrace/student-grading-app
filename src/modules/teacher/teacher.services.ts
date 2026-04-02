@@ -2,6 +2,7 @@ import { prisma } from "../../lib/prisma.js";
 import {
   addAssignmentActivity,
   buildAssignmentDeadlineFilter,
+  normalizeDeadlineInput,
 } from "../../lib/assignment-activity.js";
 import type {
   CreateAssignmentInput,
@@ -58,7 +59,7 @@ export const createAssignment = async (
       title: input.title,
       question: input.question,
       fileUrl: input.fileUrl,
-      deadline: new Date(input.deadline),
+      deadline: normalizeDeadlineInput(input.deadline),
       totalMarks: input.totalMarks,
       teacher: { connect: { userId } },
       classes: { connect: { id: input.classId } },
@@ -122,7 +123,9 @@ export const updateAssignment = async (
     },
     data: {
       ...input,
-      deadline: input.deadline ? new Date(input.deadline) : undefined,
+      deadline: input.deadline
+        ? normalizeDeadlineInput(input.deadline)
+        : undefined,
     },
   });
 

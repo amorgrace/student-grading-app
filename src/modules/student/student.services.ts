@@ -2,6 +2,7 @@ import { prisma } from "../../lib/prisma.js";
 import {
   addAssignmentActivity,
   buildAssignmentDeadlineFilter,
+  getDeadlineDayEnd,
 } from "../../lib/assignment-activity.js";
 
 export const enrollStudent = async (userId: string, classId: string) => {
@@ -151,7 +152,7 @@ export const submitAssignment = async (
     throw new Error("Unauthorized");
   }
 
-  if (new Date() > assignment.deadline)
+  if (new Date() > getDeadlineDayEnd(assignment.deadline))
     throw new Error("Assignment deadline has passed");
 
   try {
